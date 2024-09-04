@@ -1,7 +1,11 @@
+import re
 from dotenv import load_dotenv
 import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #.envを読み込む
 load_dotenv()
@@ -27,6 +31,35 @@ def message_hello(message, say):
         ],
         text=f"こんにちは、<@{message['user']}> さん！",
     )
+    
+# 資格取得のモチベを保つためのコンポーネントの作成
+@app.message(re.compile("資格|炎上|実力不足|足りない|まだまだ|もっと|ダメ"))
+def get_qualified(message, say):
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {"type": "mrkdwn", "text": f"<@{message['user']}>よ、自己研鑽、足りてるかい？"},
+            },
+            {
+                "type":"actions",
+                "elements": [
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "はい"},
+                        "action_id": "qualified_yes_btn"
+                    },
+                    {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "いいえ"},
+                        "action_id": "qualified_no_btn"
+                    },
+                    
+                ]
+            }
+        ],
+        text=f"<@{message['user']}>よ、自己研鑽、足りてるかい？",
+    )
  
 @app.message("先輩に質問")
 def message_ask_question(message, say):
@@ -45,6 +78,18 @@ def action_button_click(body, ack, say):
     # チャンネルにメッセージを投稿します
     say(f"<@{body['user']['id']}> さんがボタンをクリックしました！")
     
+
+# "はい" ボタンのアクション
+@app.action("qualified_yes_btn")
+def action_yes_button_click(body, ack, say):
+    ack()
+    # say(f"<@{body['user']['id']}>、セーフ")
+
+# "いいえ" ボタンのアクション
+@app.action("qualified_no_btn")
+def action_no_button_click(body, ack, say):
+    ack()
+    say(f"<@{body['user']['id']}> 、アウト")
 
 if __name__ == "__main__":
     # アプリを起動して、ソケットモードで Slack に接続します
