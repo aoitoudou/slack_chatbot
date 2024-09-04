@@ -1,9 +1,13 @@
 import re
+from dotenv import load_dotenv
 import os
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from dotenv import load_dotenv
 
+load_dotenv()
+
+#.envを読み込む
 load_dotenv()
 
 # ボットトークンを渡してアプリを初期化します
@@ -56,20 +60,30 @@ def get_qualified(message, say):
         ],
         text=f"<@{message['user']}>よ、自己研鑽、足りてるかい？",
     )
+ 
+@app.message("先輩に質問")
+def message_ask_question(message, say):
+    question_form = "https://forms.gle/97DaB8k72P2weZ6e6"
+    say(f"こちらのフォームに回答してください {question_form}")
 
+@app.message("先輩と面談")
+def message_interview(message, say):
+    interview_form = "https://forms.gle/anvPHj1etTjjbTmU6"
+    say(f"こちらのフォームに回答してください {interview_form}")
+    
 @app.action("button_click")
 def action_button_click(body, ack, say):
     # アクションを確認したことを即時で応答します
     ack()
     # チャンネルにメッセージを投稿します
     say(f"<@{body['user']['id']}> さんがボタンをクリックしました！")
+    
 
 # "はい" ボタンのアクション
 @app.action("qualified_yes_btn")
 def action_yes_button_click(body, ack, say):
     ack()
     # say(f"<@{body['user']['id']}>、セーフ")
-    
 
 # "いいえ" ボタンのアクション
 @app.action("qualified_no_btn")
