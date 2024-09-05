@@ -26,12 +26,8 @@
 git clone https://github.com/your-repo/slack-chatbot.git
 cd slack-chatbot
 ```
-2. 必要なPythonパッケージをインストールします。
-```
-pip install -r requirements.txt
-```
-4. .envファイルを作成し、必要な環境変数を設定します。
-5. ボットを起動します。
+2. .envファイルを作成し、必要な環境変数を設定します。
+3. ボットを起動します。
 ```
 python main.py
 ```
