@@ -161,12 +161,12 @@ def handle_message_events(event, logger, say):
  
 @app.message("先輩に質問")
 def message_ask_question(message, say):
-    question_form = "https://forms.gle/97DaB8k72P2weZ6e6"
+    question_form = "https://forms.gle/vmBFDfq7ry7RxRQMA"
     say(f"こちらのフォームに回答してください {question_form}")
 
 @app.message("先輩と面談")
 def message_interview(message, say):
-    interview_form = "https://forms.gle/anvPHj1etTjjbTmU6"
+    interview_form = "https://forms.gle/nEZruXBn6iUgtrm5A"
     say(f"こちらのフォームに回答してください {interview_form}")
     
 @app.action("button_click")
